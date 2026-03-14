@@ -1,0 +1,159 @@
+<nav class="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="flex items-center justify-between h-16">
+
+            <!-- Logo -->
+            <a href="/" class="flex items-center gap-2 font-bold text-xl text-gray-900 hover:text-blue-600 transition">
+                <span
+                    class="bg-blue-600 text-white rounded-lg w-8 h-8 flex items-center justify-center text-sm">📚</span>
+                <span class="hidden sm:block">Biblioteca Digital</span>
+            </a>
+
+            <!-- Links centro — solo desktop -->
+            <div class="hidden md:flex items-center gap-1">
+                <a href="/"
+                    class="px-4 py-2 rounded-lg text-sm font-medium text-gray-600 hover:text-blue-600 hover:bg-blue-50 transition">
+                    Inicio
+                </a>
+                {{#if estaLogueado}}
+                <a href="/catalogo"
+                    class="px-4 py-2 rounded-lg text-sm font-medium text-gray-600 hover:text-blue-600 hover:bg-blue-50 transition">
+                    Catálogo
+                </a>
+                {{/if}}
+                {{#if esAdmin}}
+                <a href="/admin/dashboard"
+                    class="px-4 py-2 rounded-lg text-sm font-medium text-yellow-600 hover:text-yellow-700 hover:bg-yellow-50 transition">
+                    ⚙️ Admin
+                </a>
+                {{/if}}
+                {{#if esBibliotecario}}
+                <a href="/biblioteca/dashboard"
+                    class="px-4 py-2 rounded-lg text-sm font-medium text-green-600 hover:text-green-700 hover:bg-green-50 transition">
+                    📖 Panel
+                </a>
+                {{/if}}
+            </div>
+
+            <!-- Derecha — desktop -->
+            <div class="hidden md:flex items-center gap-3">
+                {{#if estaLogueado}}
+                <div class="flex items-center gap-2 bg-gray-50 rounded-xl px-3 py-1.5">
+                    <div
+                        class="w-7 h-7 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-bold uppercase">
+                        {{ usuario.nombre.[0] }}
+                    </div>
+                    <span class="text-sm text-gray-700 font-medium max-w-[120px] truncate">{{ usuario.nombre }}</span>
+                </div>
+                <a href="/auth/logout"
+                    class="bg-red-50 hover:bg-red-100 text-red-600 text-sm font-semibold px-4 py-2 rounded-lg transition">
+                    Salir
+                </a>
+                {{else}}
+                <a href="/auth/login"
+                    class="text-sm font-medium text-gray-600 hover:text-blue-600 transition px-4 py-2 rounded-lg hover:bg-blue-50">
+                    Iniciar sesión
+                </a>
+                <a href="/auth/registro"
+                    class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-4 py-2 rounded-lg transition shadow-sm">
+                    Registrarse
+                </a>
+                {{/if}}
+            </div>
+
+            <!-- Botón hamburguesa — mobile -->
+            <button id="menuBtn" class="md:hidden p-2 rounded-lg text-gray-600 hover:bg-gray-100 transition"
+                onclick="toggleMenu()">
+                <svg id="iconMenu" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+                <svg id="iconClose" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+
+        </div>
+    </div>
+
+    <!-- Menú mobile -->
+    <div id="mobileMenu" class="hidden md:hidden border-t border-gray-100 bg-white">
+        <div class="max-w-7xl mx-auto px-4 py-3 space-y-1">
+
+            <a href="/"
+                class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">
+                🏠 Inicio
+            </a>
+
+            {{#if estaLogueado}}
+            <a href="/catalogo"
+                class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">
+                📚 Catálogo
+            </a>
+            {{/if}}
+
+            {{#if esAdmin}}
+            <a href="/admin/dashboard"
+                class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium text-yellow-600 hover:bg-yellow-50 transition">
+                ⚙️ Panel de administrador
+            </a>
+            {{/if}}
+
+            {{#if esBibliotecario}}
+            <a href="/biblioteca/dashboard"
+                class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium text-green-600 hover:bg-green-50 transition">
+                📖 Panel de bibliotecario
+            </a>
+            {{/if}}
+
+            <div class="border-t border-gray-100 pt-3 mt-3">
+                {{#if estaLogueado}}
+                <div class="flex items-center gap-3 px-4 py-2.5 mb-2">
+                    <div
+                        class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-sm font-bold uppercase">
+                        {{ usuario.nombre.[0] }}
+                    </div>
+                    <div>
+                        <p class="text-sm font-semibold text-gray-800">{{ usuario.nombre }}</p>
+                        <p class="text-xs text-gray-400">{{ usuario.email }}</p>
+                    </div>
+                </div>
+                <a href="/auth/logout"
+                    class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium text-red-600 hover:bg-red-50 transition">
+                    🚪 Cerrar sesión
+                </a>
+                {{else}}
+                <a href="/auth/login"
+                    class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">
+                    🔑 Iniciar sesión
+                </a>
+                <a href="/auth/registro"
+                    class="flex items-center justify-center gap-2 mx-4 mt-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-2.5 rounded-lg transition">
+                    ✨ Crear cuenta gratis
+                </a>
+                {{/if}}
+            </div>
+
+        </div>
+    </div>
+</nav>
+
+<script>
+    function toggleMenu() {
+        const menu = document.getElementById('mobileMenu');
+        const iconMenu = document.getElementById('iconMenu');
+        const iconClose = document.getElementById('iconClose');
+        menu.classList.toggle('hidden');
+        iconMenu.classList.toggle('hidden');
+        iconClose.classList.toggle('hidden');
+    }
+
+    document.addEventListener('click', function (e) {
+        const menu = document.getElementById('mobileMenu');
+        const btn = document.getElementById('menuBtn');
+        if (!menu.contains(e.target) && !btn.contains(e.target)) {
+            menu.classList.add('hidden');
+            document.getElementById('iconMenu').classList.remove('hidden');
+            document.getElementById('iconClose').classList.add('hidden');
+        }
+    });
+</script>

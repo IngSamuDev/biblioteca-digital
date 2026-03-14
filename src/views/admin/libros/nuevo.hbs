@@ -1,0 +1,136 @@
+<div class="min-h-screen bg-gray-50">
+
+    <div class="bg-white border-b border-gray-200">
+        <div class="max-w-3xl mx-auto px-6 py-5 flex items-center gap-4">
+            <a href="/admin/libros"
+                class="w-9 h-9 flex items-center justify-center rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-600 transition">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+            </a>
+            <div>
+                <h1 class="text-xl font-bold text-gray-900">Subir Nuevo Libro</h1>
+                <p class="text-gray-400 text-sm mt-0.5">Completa la información del libro</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-3xl mx-auto px-6 py-8">
+
+        {{#if error}}
+        <div
+            class="bg-red-50 border border-red-200 text-red-600 rounded-2xl px-5 py-3.5 mb-6 text-sm flex items-center gap-2">
+            <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" />
+            </svg>
+            {{ error }}
+        </div>
+        {{/if}}
+
+        <div class="bg-white rounded-2xl border border-gray-100 p-8">
+            <form action="/admin/libros/nuevo" method="POST" enctype="multipart/form-data" class="space-y-6">
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Título <span
+                                class="text-red-400">*</span></label>
+                        <input type="text" name="titulo" required placeholder="Título del libro"
+                            class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition bg-gray-50 focus:bg-white" />
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Descripción</label>
+                        <textarea name="descripcion" rows="3" placeholder="Descripción del libro..."
+                            class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition bg-gray-50 focus:bg-white resize-none"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Año de publicación</label>
+                        <input type="number" name="anio" min="1000" max="2099" placeholder="Ej: 2023"
+                            class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition bg-gray-50 focus:bg-white" />
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Autores</label>
+                        {{#if autores.length}}
+                        <div
+                            class="border border-gray-200 rounded-xl p-3 max-h-40 overflow-y-auto bg-gray-50 space-y-1">
+                            {{#each autores}}
+                            <label
+                                class="flex items-center gap-2.5 text-sm cursor-pointer py-1 px-2 rounded-lg hover:bg-white transition">
+                                <input type="checkbox" name="autores" value="{{ id_autores }}"
+                                    class="rounded border-gray-300 text-blue-600" />
+                                <span class="text-gray-700">{{ nombre_autores }}</span>
+                            </label>
+                            {{/each}}
+                        </div>
+                        {{else}}
+                        <div class="border border-dashed border-gray-200 rounded-xl p-4 text-center">
+                            <p class="text-gray-400 text-sm">No hay autores.
+                                <a href="/admin/autores/nuevo" class="text-blue-600 hover:underline">Crear uno</a>
+                            </p>
+                        </div>
+                        {{/if}}
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Categorías</label>
+                        {{#if categorias.length}}
+                        <div
+                            class="border border-gray-200 rounded-xl p-3 max-h-40 overflow-y-auto bg-gray-50 space-y-1">
+                            {{#each categorias}}
+                            <label
+                                class="flex items-center gap-2.5 text-sm cursor-pointer py-1 px-2 rounded-lg hover:bg-white transition">
+                                <input type="checkbox" name="categorias" value="{{ id_categorias }}"
+                                    class="rounded border-gray-300 text-blue-600" />
+                                <span class="text-gray-700">{{ nombre_categorias }}</span>
+                            </label>
+                            {{/each}}
+                        </div>
+                        {{else}}
+                        <div class="border border-dashed border-gray-200 rounded-xl p-4 text-center">
+                            <p class="text-gray-400 text-sm">No hay categorías.
+                                <a href="/admin/categorias/nuevo" class="text-blue-600 hover:underline">Crear una</a>
+                            </p>
+                        </div>
+                        {{/if}}
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Archivo PDF <span
+                                class="text-red-400">*</span></label>
+                        <div
+                            class="border-2 border-dashed border-gray-200 rounded-xl p-4 text-center hover:border-blue-300 transition">
+                            <div class="text-2xl mb-1">📄</div>
+                            <input type="file" name="pdf" accept=".pdf" required class="w-full text-sm text-gray-500" />
+                            <p class="text-gray-400 text-xs mt-1">PDF — Máximo 50MB</p>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Portada</label>
+                        <div
+                            class="border-2 border-dashed border-gray-200 rounded-xl p-4 text-center hover:border-blue-300 transition">
+                            <div class="text-2xl mb-1">🖼️</div>
+                            <input type="file" name="portada" accept="image/*" class="w-full text-sm text-gray-500" />
+                            <p class="text-gray-400 text-xs mt-1">JPG, PNG o WEBP — Opcional</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex gap-3 pt-2">
+                    <button type="submit"
+                        class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl transition text-sm shadow-sm shadow-blue-200">
+                        Subir libro
+                    </button>
+                    <a href="/admin/libros"
+                        class="flex-1 text-center border border-gray-200 hover:bg-gray-50 text-gray-600 font-semibold py-3 rounded-xl transition text-sm">
+                        Cancelar
+                    </a>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

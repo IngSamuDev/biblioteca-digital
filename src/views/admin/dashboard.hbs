@@ -1,0 +1,188 @@
+<div class="min-h-screen bg-gray-50">
+
+    <!-- Header -->
+    <div class="bg-white border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
+            <div>
+                <h1 class="text-xl font-bold text-gray-900">Panel de Administración</h1>
+                <p class="text-gray-400 text-sm mt-0.5">Bienvenido de vuelta, <span class="text-gray-600 font-medium">{{
+                        usuario.nombre }}</span></p>
+            </div>
+            <div class="flex items-center gap-3">
+                <a href="/"
+                    class="text-sm font-medium text-gray-500 hover:text-gray-900 transition px-4 py-2 rounded-xl hover:bg-gray-100">
+                    ← Inicio
+                </a>
+                <a href="/admin/libros/nuevo"
+                    class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition shadow-sm shadow-blue-200">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                    </svg>
+                    Subir libro
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-6 py-8">
+
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
+            <div
+                class="bg-white rounded-2xl p-5 border border-gray-100 hover:border-blue-200 hover:shadow-md transition group">
+                <div class="text-2xl font-extrabold text-blue-600 mb-1">{{ stats.total_libros }}</div>
+                <div class="text-xs text-gray-400 font-medium">Libros</div>
+                <div class="mt-3 w-8 h-0.5 bg-blue-100 group-hover:bg-blue-400 transition rounded-full"></div>
+            </div>
+            <div
+                class="bg-white rounded-2xl p-5 border border-gray-100 hover:border-green-200 hover:shadow-md transition group">
+                <div class="text-2xl font-extrabold text-green-600 mb-1">{{ stats.total_usuarios }}</div>
+                <div class="text-xs text-gray-400 font-medium">Usuarios</div>
+                <div class="mt-3 w-8 h-0.5 bg-green-100 group-hover:bg-green-400 transition rounded-full"></div>
+            </div>
+            <div
+                class="bg-white rounded-2xl p-5 border border-gray-100 hover:border-purple-200 hover:shadow-md transition group">
+                <div class="text-2xl font-extrabold text-purple-600 mb-1">{{ stats.total_autores }}</div>
+                <div class="text-xs text-gray-400 font-medium">Autores</div>
+                <div class="mt-3 w-8 h-0.5 bg-purple-100 group-hover:bg-purple-400 transition rounded-full"></div>
+            </div>
+            <div
+                class="bg-white rounded-2xl p-5 border border-gray-100 hover:border-amber-200 hover:shadow-md transition group">
+                <div class="text-2xl font-extrabold text-amber-500 mb-1">{{ stats.total_categorias }}</div>
+                <div class="text-xs text-gray-400 font-medium">Categorías</div>
+                <div class="mt-3 w-8 h-0.5 bg-amber-100 group-hover:bg-amber-400 transition rounded-full"></div>
+            </div>
+            <div
+                class="bg-white rounded-2xl p-5 border border-gray-100 hover:border-red-200 hover:shadow-md transition group">
+                <div class="text-2xl font-extrabold text-red-500 mb-1">{{ stats.total_descargas }}</div>
+                <div class="text-xs text-gray-400 font-medium">Descargas</div>
+                <div class="mt-3 w-8 h-0.5 bg-red-100 group-hover:bg-red-400 transition rounded-full"></div>
+            </div>
+            <div
+                class="bg-white rounded-2xl p-5 border border-gray-100 hover:border-indigo-200 hover:shadow-md transition group">
+                <div class="text-2xl font-extrabold text-indigo-600 mb-1">{{ stats.total_visualizaciones }}</div>
+                <div class="text-xs text-gray-400 font-medium">Lecturas</div>
+                <div class="mt-3 w-8 h-0.5 bg-indigo-100 group-hover:bg-indigo-400 transition rounded-full"></div>
+            </div>
+        </div>
+
+        <!-- Accesos rápidos -->
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-3 mb-8">
+            <a href="/admin/usuarios"
+                class="group bg-white rounded-2xl border border-gray-100 hover:border-blue-200 hover:shadow-md p-5 flex flex-col items-center gap-3 transition">
+                <div
+                    class="w-11 h-11 bg-blue-50 group-hover:bg-blue-100 rounded-xl flex items-center justify-center text-xl transition">
+                    👥
+                </div>
+                <span
+                    class="text-xs font-semibold text-gray-600 group-hover:text-blue-600 transition text-center">Usuarios</span>
+            </a>
+            <a href="/admin/libros"
+                class="group bg-white rounded-2xl border border-gray-100 hover:border-indigo-200 hover:shadow-md p-5 flex flex-col items-center gap-3 transition">
+                <div
+                    class="w-11 h-11 bg-indigo-50 group-hover:bg-indigo-100 rounded-xl flex items-center justify-center text-xl transition">
+                    📚
+                </div>
+                <span
+                    class="text-xs font-semibold text-gray-600 group-hover:text-indigo-600 transition text-center">Libros</span>
+            </a>
+            <a href="/admin/autores"
+                class="group bg-white rounded-2xl border border-gray-100 hover:border-purple-200 hover:shadow-md p-5 flex flex-col items-center gap-3 transition">
+                <div
+                    class="w-11 h-11 bg-purple-50 group-hover:bg-purple-100 rounded-xl flex items-center justify-center text-xl transition">
+                    ✍️
+                </div>
+                <span
+                    class="text-xs font-semibold text-gray-600 group-hover:text-purple-600 transition text-center">Autores</span>
+            </a>
+            <a href="/admin/categorias"
+                class="group bg-white rounded-2xl border border-gray-100 hover:border-amber-200 hover:shadow-md p-5 flex flex-col items-center gap-3 transition">
+                <div
+                    class="w-11 h-11 bg-amber-50 group-hover:bg-amber-100 rounded-xl flex items-center justify-center text-xl transition">
+                    🏷️
+                </div>
+                <span
+                    class="text-xs font-semibold text-gray-600 group-hover:text-amber-600 transition text-center">Categorías</span>
+            </a>
+            <a href="/admin/reportes"
+                class="group bg-white rounded-2xl border border-gray-100 hover:border-green-200 hover:shadow-md p-5 flex flex-col items-center gap-3 transition">
+                <div
+                    class="w-11 h-11 bg-green-50 group-hover:bg-green-100 rounded-xl flex items-center justify-center text-xl transition">
+                    📊
+                </div>
+                <span
+                    class="text-xs font-semibold text-gray-600 group-hover:text-green-600 transition text-center">Reportes</span>
+            </a>
+        </div>
+
+        <!-- Tablas -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+            <!-- Últimos usuarios -->
+            <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+                <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100">
+                    <h2 class="font-semibold text-gray-900 text-sm">Últimos usuarios</h2>
+                    <a href="/admin/usuarios" class="text-xs font-medium text-blue-600 hover:text-blue-700 transition">
+                        Ver todos →
+                    </a>
+                </div>
+                <div class="divide-y divide-gray-50">
+                    {{#if usuarios.length}}
+                    {{#each usuarios}}
+                    <div class="flex items-center justify-between px-6 py-3.5 hover:bg-gray-50 transition">
+                        <div class="flex items-center gap-3">
+                            <div
+                                class="w-8 h-8 rounded-xl bg-blue-600 flex items-center justify-center text-white text-xs font-bold uppercase flex-shrink-0">
+                                {{ nombre_usuarios.[0] }}
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-gray-800">{{ nombre_usuarios }}</p>
+                                <p class="text-xs text-gray-400">{{ email_usuarios }}</p>
+                            </div>
+                        </div>
+                        <span class="text-xs px-2.5 py-1 rounded-lg font-medium
+                  {{#if (eq nombre_roles 'administrador')}}bg-amber-50 text-amber-600
+                  {{else if (eq nombre_roles 'bibliotecario')}}bg-green-50 text-green-600
+                  {{else}}bg-blue-50 text-blue-600{{/if}}">
+                            {{ nombre_roles }}
+                        </span>
+                    </div>
+                    {{/each}}
+                    {{else}}
+                    <div class="px-6 py-10 text-center text-gray-400 text-sm">
+                        Sin usuarios aún
+                    </div>
+                    {{/if}}
+                </div>
+            </div>
+
+            <!-- Libros más descargados -->
+            <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+                <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100">
+                    <h2 class="font-semibold text-gray-900 text-sm">Libros más descargados</h2>
+                    <a href="/admin/reportes" class="text-xs font-medium text-blue-600 hover:text-blue-700 transition">
+                        Ver reportes →
+                    </a>
+                </div>
+                <div class="divide-y divide-gray-50">
+                    {{#if librosTop.length}}
+                    {{#each librosTop}}
+                    <div class="flex items-center justify-between px-6 py-3.5 hover:bg-gray-50 transition">
+                        <p class="text-sm font-medium text-gray-800 truncate flex-1 mr-3">{{ titulo_libros }}</p>
+                        <span
+                            class="text-xs bg-blue-50 text-blue-600 px-2.5 py-1 rounded-lg font-semibold whitespace-nowrap">
+                            {{ total_descargas }} descargas
+                        </span>
+                    </div>
+                    {{/each}}
+                    {{else}}
+                    <div class="px-6 py-10 text-center text-gray-400 text-sm">
+                        Sin descargas aún
+                    </div>
+                    {{/if}}
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

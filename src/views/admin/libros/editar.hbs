@@ -1,0 +1,117 @@
+<div class="min-h-screen bg-gray-50">
+
+    <div class="bg-white border-b border-gray-200">
+        <div class="max-w-3xl mx-auto px-6 py-5 flex items-center gap-4">
+            <a href="/admin/libros"
+                class="w-9 h-9 flex items-center justify-center rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-600 transition">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+            </a>
+            <div>
+                <h1 class="text-xl font-bold text-gray-900">Editar Libro</h1>
+                <p class="text-gray-400 text-sm mt-0.5">{{ libro.titulo_libros }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-3xl mx-auto px-6 py-8">
+        <div class="bg-white rounded-2xl border border-gray-100 p-8">
+            <form action="/admin/libros/{{ libro.id_libros }}/editar" method="POST" enctype="multipart/form-data"
+                class="space-y-6">
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Título <span
+                                class="text-red-400">*</span></label>
+                        <input type="text" name="titulo" value="{{ libro.titulo_libros }}" required
+                            class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition bg-gray-50 focus:bg-white" />
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Descripción</label>
+                        <textarea name="descripcion" rows="3"
+                            class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition bg-gray-50 focus:bg-white resize-none">{{ libro.descripcion_libros }}</textarea>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Año de publicación</label>
+                        <input type="number" name="anio" value="{{ libro.anio_publicacion_libros }}" min="1000"
+                            max="2099"
+                            class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition bg-gray-50 focus:bg-white" />
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Autores</label>
+                        {{#if autores.length}}
+                        <div
+                            class="border border-gray-200 rounded-xl p-3 max-h-40 overflow-y-auto bg-gray-50 space-y-1">
+                            {{#each autores}}
+                            <label
+                                class="flex items-center gap-2.5 text-sm cursor-pointer py-1 px-2 rounded-lg hover:bg-white transition">
+                                <input type="checkbox" name="autores" value="{{ id_autores }}" {{#if
+                                    seleccionado}}checked{{/if}} class="rounded border-gray-300 text-blue-600" />
+                                <span class="text-gray-700">{{ nombre_autores }}</span>
+                            </label>
+                            {{/each}}
+                        </div>
+                        {{/if}}
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Categorías</label>
+                        {{#if categorias.length}}
+                        <div
+                            class="border border-gray-200 rounded-xl p-3 max-h-40 overflow-y-auto bg-gray-50 space-y-1">
+                            {{#each categorias}}
+                            <label
+                                class="flex items-center gap-2.5 text-sm cursor-pointer py-1 px-2 rounded-lg hover:bg-white transition">
+                                <input type="checkbox" name="categorias" value="{{ id_categorias }}" {{#if
+                                    seleccionada}}checked{{/if}} class="rounded border-gray-300 text-blue-600" />
+                                <span class="text-gray-700">{{ nombre_categorias }}</span>
+                            </label>
+                            {{/each}}
+                        </div>
+                        {{/if}}
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Reemplazar PDF</label>
+                        <p class="text-gray-400 text-xs mb-2">Actual: <span class="font-medium text-gray-600">{{
+                                libro.archivo_url_libros }}</span></p>
+                        <div
+                            class="border-2 border-dashed border-gray-200 rounded-xl p-4 text-center hover:border-blue-300 transition">
+                            <input type="file" name="pdf" accept=".pdf" class="w-full text-sm text-gray-500" />
+                            <p class="text-gray-400 text-xs mt-1">Dejar vacío para mantener el actual</p>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Reemplazar portada</label>
+                        {{#if libro.portada_url_libros}}
+                        <img src="/uploads/portadas/{{ libro.portada_url_libros }}"
+                            class="w-16 h-20 object-cover rounded-xl shadow-sm mb-2" />
+                        {{/if}}
+                        <div
+                            class="border-2 border-dashed border-gray-200 rounded-xl p-4 text-center hover:border-blue-300 transition">
+                            <input type="file" name="portada" accept="image/*" class="w-full text-sm text-gray-500" />
+                            <p class="text-gray-400 text-xs mt-1">Dejar vacío para mantener la actual</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex gap-3 pt-2">
+                    <button type="submit"
+                        class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl transition text-sm shadow-sm shadow-blue-200">
+                        Guardar cambios
+                    </button>
+                    <a href="/admin/libros"
+                        class="flex-1 text-center border border-gray-200 hover:bg-gray-50 text-gray-600 font-semibold py-3 rounded-xl transition text-sm">
+                        Cancelar
+                    </a>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

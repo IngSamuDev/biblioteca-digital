@@ -1,0 +1,45 @@
+<div class="flex flex-col" style="height: calc(100vh - 64px);">
+
+    <!-- Header visor -->
+    <div class="bg-gray-800 border-b border-gray-700 px-4 py-3 flex-shrink-0">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <a href="/catalogo/{{ libro.id_libros }}"
+                    class="inline-flex items-center gap-2 text-gray-400 hover:text-white transition text-sm">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    </svg>
+                    Volver
+                </a>
+                <div class="w-px h-4 bg-gray-600"></div>
+                <h1 class="text-white font-semibold text-sm truncate max-w-xs md:max-w-md">
+                    {{ libro.titulo_libros }}
+                </h1>
+            </div>
+            <a href="/catalogo/{{ libro.id_libros }}/descargar"
+                class="inline-flex items-center gap-2 bg-green-600 hover:bg-green-500 text-white text-xs font-semibold px-4 py-2 rounded-xl transition">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                Descargar
+            </a>
+        </div>
+    </div>
+
+    <!-- Visor PDF -->
+    <div class="flex-1 bg-gray-900">
+        <iframe src="{{ libro.pdfUrl }}" class="w-full h-full border-0" type="application/pdf"
+            title="{{ libro.titulo_libros }}">
+            <div class="flex flex-col items-center justify-center h-full text-gray-400">
+                <div class="text-6xl mb-4">📄</div>
+                <p class="text-lg font-medium text-white mb-2">Tu navegador no puede mostrar el PDF</p>
+                <a href="/catalogo/{{ libro.id_libros }}/descargar"
+                    class="mt-4 bg-green-600 hover:bg-green-500 text-white font-semibold px-6 py-2.5 rounded-xl transition text-sm">
+                    Descargar PDF
+                </a>
+            </div>
+        </iframe>
+    </div>
+
+</div>
