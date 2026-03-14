@@ -4,11 +4,10 @@ require('dotenv').config();
 let pool;
 
 if (process.env.DATABASE_URL) {
-    // Railway — usa DATABASE_URL directamente
+    // Producción (Render / Neon)
     pool = new Pool({
         connectionString: process.env.DATABASE_URL,
-        ssl: { rejectUnauthorized: false },
-        options: `-c search_path=${process.env.DB_SCHEMA || 'biblioteca'}`
+        ssl: { rejectUnauthorized: false }
     });
 } else {
     // Local
@@ -17,8 +16,7 @@ if (process.env.DATABASE_URL) {
         port: process.env.DB_PORT,
         database: process.env.DB_NAME,
         user: process.env.DB_USER,
-        password: process.env.DB_PASSWORD,
-        options: `-c search_path=${process.env.DB_SCHEMA}`
+        password: process.env.DB_PASSWORD
     });
 }
 
