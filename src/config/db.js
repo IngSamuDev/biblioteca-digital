@@ -28,7 +28,7 @@ pool.connect((err, client, release) => {
         return;
     }
     release();
-    console.log('Conectado a PostgreSQL correctamente');
+    console.log('✅ Conectado a PostgreSQL correctamente');
 });
 
 module.exports = pool;
