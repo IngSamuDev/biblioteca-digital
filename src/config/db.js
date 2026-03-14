@@ -4,10 +4,11 @@ require('dotenv').config();
 let pool;
 
 if (process.env.DATABASE_URL) {
-    // Producción (Render / Neon)
+    // Railway — usa DATABASE_URL directamente
     pool = new Pool({
         connectionString: process.env.DATABASE_URL,
-        ssl: { rejectUnauthorized: false }
+        ssl: { rejectUnauthorized: false },
+        options: `-c search_path=${process.env.DB_SCHEMA || 'biblioteca'}`
     });
 } else {
     // Local
@@ -16,13 +17,14 @@ if (process.env.DATABASE_URL) {
         port: process.env.DB_PORT,
         database: process.env.DB_NAME,
         user: process.env.DB_USER,
-        password: process.env.DB_PASSWORD
+        password: process.env.DB_PASSWORD,
+        options: `-c search_path=${process.env.DB_SCHEMA}`
     });
 }
 
 pool.connect((err, client, release) => {
     if (err) {
-        console.error('Error conectando a PostgreSQL:', err.message);
+        console.error('❌ Error conectando a PostgreSQL:', err.message);
         return;
     }
     release();
