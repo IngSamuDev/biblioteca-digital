@@ -4,13 +4,13 @@ const UsuarioModel = require('../models/usuario.model');
 
 const AuthController = {
 
-    // ── Mostrar formulario de login ──────────────────────────────
     showLogin(req, res) {
         const success = req.query.registro === 'exitoso'
             ? 'Cuenta creada exitosamente. Inicia sesión.' : null;
 
-        const error = req.query.error === 'no_registrado'
-            ? 'No tienes cuenta. Por favor regístrate primero.' : null;
+        let error = null;
+        if (req.query.error === 'no_registrado') error = 'No tienes cuenta. Por favor regístrate primero.';
+        if (req.query.error === 'desactivado') error = '⚠️ Tu cuenta está desactivada. Contacta al administrador.';
 
         res.render('auth/login', {
             title: 'Iniciar Sesión',
@@ -20,10 +20,9 @@ const AuthController = {
         });
     },
 
-    // ── Mostrar formulario de registro ───────────────────────────
     showRegistro(req, res) {
-        const error = req.query.error === 'ya_registrado'
-            ? 'Este email ya está registrado. Inicia sesión.' : null;
+        let error = null;
+        if (req.query.error === 'ya_registrado') error = 'Este email ya está registrado. Inicia sesión.';
 
         res.render('auth/registro', {
             title: 'Crear Cuenta',
@@ -32,20 +31,12 @@ const AuthController = {
         });
     },
 
-    // ── Procesar login (RF2, RF4) ────────────────────────────────
     async login(req, res) {
         try {
             const { email, password } = req.body;
 
-            if (!email || !password) {
-                return res.render('auth/login', {
-                    title: 'Iniciar Sesión',
-                    error: 'Email y contraseña son obligatorios',
-                    email
-                });
-            }
+            const usuario = await UsuarioModel.findByEmailSinFiltro(email);
 
-            const usuario = await UsuarioModel.findByEmail(email);
             if (!usuario) {
                 return res.render('auth/login', {
                     title: 'Iniciar Sesión',
@@ -54,7 +45,16 @@ const AuthController = {
                 });
             }
 
-            // Verificar que no sea cuenta de Google
+            // Usuario inactivo
+            if (!usuario.estado_usuarios) {
+                return res.render('auth/login', {
+                    title: 'Iniciar Sesión',
+                    error: '⚠️ Tu cuenta está desactivada. Contacta al administrador.',
+                    email
+                });
+            }
+
+            // Cuenta de Google
             if (usuario.password_usuarios === 'GOOGLE_AUTH') {
                 return res.render('auth/login', {
                     title: 'Iniciar Sesión',
@@ -102,34 +102,9 @@ const AuthController = {
         }
     },
 
-    // ── Procesar registro (RF1, RF3) ─────────────────────────────
     async registro(req, res) {
         try {
-            const { nombre, email, password, confirmar_password } = req.body;
-
-            if (!nombre || !email || !password || !confirmar_password) {
-                return res.render('auth/registro', {
-                    title: 'Crear Cuenta',
-                    error: 'Todos los campos son obligatorios',
-                    nombre, email
-                });
-            }
-
-            if (password !== confirmar_password) {
-                return res.render('auth/registro', {
-                    title: 'Crear Cuenta',
-                    error: 'Las contraseñas no coinciden',
-                    nombre, email
-                });
-            }
-
-            if (password.length < 6) {
-                return res.render('auth/registro', {
-                    title: 'Crear Cuenta',
-                    error: 'La contraseña debe tener al menos 6 caracteres',
-                    nombre, email
-                });
-            }
+            const { nombre, email, password } = req.body;
 
             const existe = await UsuarioModel.emailExiste(email);
             if (existe) {
@@ -153,7 +128,6 @@ const AuthController = {
         }
     },
 
-    // ── Cerrar sesión (RF5) ──────────────────────────────────────
     logout(req, res) {
         res.clearCookie('token');
         res.redirect('/');

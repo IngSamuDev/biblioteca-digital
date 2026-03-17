@@ -18,7 +18,9 @@ app.engine('hbs', engine({
     helpers: {
         eq: (a, b) => a === b,
         currentYear: () => new Date().getFullYear(),
-        toString: (val) => String(val)
+        toString: (val) => String(val),
+        gte: (a, b) => a >= b,
+        lte: (a, b) => a <= b
     }
 }));
 app.set('view engine', 'hbs');
@@ -56,13 +58,17 @@ app.use('/admin/autores', require('./routes/autores.routes'));
 app.use('/admin/categorias', require('./routes/categorias.routes'));
 app.use('/admin/usuarios', require('./routes/usuarios.routes'));
 app.use('/admin/reportes', require('./routes/reportes.routes'));
-app.use('/catalogo', require('./routes/catalogo.routes'));
 app.use('/biblioteca', require('./routes/biblioteca.routes'));
+app.use('/catalogo', require('./routes/catalogo.routes'));
 app.use('/', require('./routes/index.routes'));
 
 // ── 404 ───────────────────────────────────────────────────────
 app.use((req, res) => {
-    res.status(404).json({ mensaje: 'Ruta no encontrada' });
+    res.status(404).render('error', {
+        title: 'Página no encontrada',
+        mensaje: 'La página que buscas no existe.',
+        layout: 'main'
+    });
 });
 
 module.exports = app;

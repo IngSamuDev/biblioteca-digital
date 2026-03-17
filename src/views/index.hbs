@@ -20,7 +20,7 @@
         {{#if estaLogueado}}
         <a href="/catalogo"
             class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold px-8 py-3.5 rounded-2xl transition shadow-lg shadow-blue-900/50 text-base">
-            Explorar catálogo
+            Explorar catálogo completo
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>
@@ -64,7 +64,7 @@
     </div>
 </section>
 
-<!-- Catálogo de libros -->
+<!-- Catálogo -->
 <section class="max-w-7xl mx-auto px-4 py-14">
 
     <div class="flex items-end justify-between mb-8">
@@ -75,7 +75,7 @@
         {{#if estaLogueado}}
         <a href="/catalogo"
             class="hidden sm:inline-flex items-center gap-1 text-sm font-medium text-blue-600 hover:text-blue-700 transition">
-            Ver todos
+            Ver catálogo completo
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
             </svg>
@@ -84,82 +84,82 @@
     </div>
 
     {{#if libros.length}}
-    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
+
+    <!-- Grid — 6 columnas, máximo 6 filas visibles (36 libros) -->
+    <div id="gridLibros" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
         {{#each libros}}
+        <div class="libro-card {{#if @index}}{{#if (gte @index 12)}}hidden-card hidden{{/if}}{{/if}}
+                    group bg-white rounded-2xl border border-gray-100 hover:border-blue-200
+                    hover:shadow-lg transition-all duration-300 overflow-hidden flex flex-col
+                    cursor-pointer hover:-translate-y-1">
 
-        {{#if ../estaLogueado}}
-        <a href="/catalogo/{{ id_libros }}"
-            class="group bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col cursor-pointer border border-gray-100 hover:border-blue-200 hover:-translate-y-1">
-            {{else}}
-            <div onclick="mostrarModalLogin()"
-                class="group bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col cursor-pointer border border-gray-100 hover:border-blue-200 hover:-translate-y-1">
-                {{/if}}
-
-                <!-- Portada completa -->
-                <div class="relative aspect-[2/3] overflow-hidden bg-gradient-to-br from-slate-100 to-slate-200">
-                    {{#if portada}}
-                    <img src="{{ portada }}" alt="{{ titulo_libros }}"
-                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                    {{else}}
-                    <div class="w-full h-full flex flex-col items-center justify-center text-slate-400">
-                        <div class="text-5xl mb-2">📕</div>
-                        <p class="text-xs font-medium">Sin portada</p>
-                    </div>
+            {{#if ../estaLogueado}}
+            <a href="/catalogo/{{ id_libros }}" class="flex flex-col flex-1">
+                {{else}}
+                <div onclick="mostrarModalLogin()" class="flex flex-col flex-1">
                     {{/if}}
 
-                    <!-- Overlay al hover -->
-                    <div
-                        class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3">
-                        {{#if ../estaLogueado}}
-                        <span
-                            class="text-white text-xs font-semibold bg-blue-600 px-3 py-1.5 rounded-lg w-full text-center">
-                            Ver libro →
-                        </span>
+                    <!-- Portada -->
+                    <div class="relative aspect-[2/3] overflow-hidden bg-gray-100">
+                        {{#if portada}}
+                        <img src="{{ portada }}" alt="{{ titulo_libros }}"
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                         {{else}}
-                        <span
-                            class="text-white text-xs font-semibold bg-white/20 backdrop-blur-sm px-3 py-1.5 rounded-lg w-full text-center">
-                            🔒 Inicia sesión
-                        </span>
+                        <div class="w-full h-full flex flex-col items-center justify-center text-gray-300">
+                            <div class="text-4xl mb-1">📕</div>
+                            <p class="text-xs">Sin portada</p>
+                        </div>
+                        {{/if}}
+                        <!-- Overlay hover -->
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent
+                          opacity-0 group-hover:opacity-100 transition-opacity duration-300
+                          flex items-end p-2">
+                            {{#if ../estaLogueado}}
+                            <span
+                                class="text-white text-xs font-semibold bg-blue-600 px-2 py-1 rounded-lg w-full text-center">
+                                Ver libro →
+                            </span>
+                            {{else}}
+                            <span
+                                class="text-white text-xs font-semibold bg-black/40 backdrop-blur-sm px-2 py-1 rounded-lg w-full text-center">
+                                🔒 Inicia sesión
+                            </span>
+                            {{/if}}
+                        </div>
+                    </div>
+
+                    <!-- Info -->
+                    <div class="p-2.5 flex flex-col flex-1">
+                        <h3 class="font-semibold text-gray-900 text-xs leading-snug mb-1 line-clamp-2
+                         group-hover:text-blue-600 transition-colors">
+                            {{ titulo_libros }}
+                        </h3>
+                        {{#if autores}}
+                        <p class="text-gray-400 text-xs truncate">{{ autores }}</p>
                         {{/if}}
                     </div>
-                </div>
 
-                <!-- Info -->
-                <div class="p-3 flex flex-col flex-1">
-                    <h3
-                        class="font-bold text-gray-900 text-sm leading-snug mb-1 line-clamp-2 group-hover:text-blue-600 transition-colors">
-                        {{ titulo_libros }}
-                    </h3>
-                    {{#if autores}}
-                    <p class="text-gray-400 text-xs truncate">{{ autores }}</p>
-                    {{/if}}
-                    {{#if categorias}}
-                    <p class="text-xs mt-1">
-                        <span class="bg-blue-50 text-blue-600 px-2 py-0.5 rounded-full font-medium">
-                            {{ categorias }}
-                        </span>
-                    </p>
-                    {{/if}}
-                </div>
+                    {{#if ../estaLogueado}}
+            </a>
+            {{else}}
+        </div>
+        {{/if}}
 
-                {{#if ../estaLogueado}}
-        </a>
-        {{else}}
     </div>
-    {{/if}}
-
     {{/each}}
     </div>
 
-    {{#if estaLogueado}}
-    <div class="text-center mt-10">
-        <a href="/catalogo"
-            class="inline-flex items-center gap-2 border border-gray-200 hover:border-blue-300 hover:bg-blue-50 text-gray-700 hover:text-blue-600 font-medium px-6 py-2.5 rounded-xl transition text-sm">
-            Ver todos los libros
+    <!-- Botón ver más — aparece si hay más de 12 libros -->
+    {{#if libros.length}}
+    <div id="btnVerMas" class="text-center mt-10 {{#if (lte libros.length 12)}}hidden{{/if}}">
+        <button onclick="verMasLibros()" class="inline-flex items-center gap-2 border border-gray-200 hover:border-blue-300
+                       hover:bg-blue-50 text-gray-700 hover:text-blue-600 font-medium px-8 py-3
+                       rounded-2xl transition text-sm">
+            Ver más libros
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
             </svg>
-        </a>
+        </button>
     </div>
     {{/if}}
 
@@ -173,7 +173,7 @@
 
 </section>
 
-<!-- Modal: debe loguearse -->
+<!-- Modal login -->
 <div id="modalLogin" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden items-center justify-center z-50 px-4">
     <div class="bg-white rounded-3xl shadow-2xl max-w-sm w-full p-8 text-center">
         <div class="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-4">🔒</div>
@@ -198,6 +198,7 @@
 </div>
 
 <script>
+    // ── Modal ─────────────────────────────────────────────────────
     function mostrarModalLogin() {
         const modal = document.getElementById('modalLogin');
         modal.classList.remove('hidden');
@@ -211,4 +212,27 @@
     document.getElementById('modalLogin').addEventListener('click', function (e) {
         if (e.target === this) cerrarModal();
     });
+
+    // ── Ver más libros ────────────────────────────────────────────
+    let librosVisibles = 12;
+    const incremento = 12;
+
+    function verMasLibros() {
+        const cards = document.querySelectorAll('.hidden-card');
+        let mostrados = 0;
+
+        cards.forEach(card => {
+            if (mostrados < incremento) {
+                card.classList.remove('hidden');
+                card.classList.remove('hidden-card');
+                mostrados++;
+            }
+        });
+
+        // Si ya no quedan cards ocultas, esconder el botón
+        const restantes = document.querySelectorAll('.hidden-card');
+        if (restantes.length === 0) {
+            document.getElementById('btnVerMas').classList.add('hidden');
+        }
+    }
 </script>
